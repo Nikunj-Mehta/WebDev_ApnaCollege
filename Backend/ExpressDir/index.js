@@ -16,11 +16,12 @@ app.get("/", (req, res) => {
 
 // Path Parameters
 app.get("/:username/:id", (req, res) => {
-  let { username, id } = req.params;
+  let { username, id } = req.params; // Extract username from URL
   let htmlStr = `<h1>Welcome to the page of @${username}, You have ID: ${id}</h1>`
   res.send(htmlStr);
 });
 
+//Query String
 app.get("/search", (req, res) => {
   let { q } = req.query;
   if(!q) {
