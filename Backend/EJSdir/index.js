@@ -21,7 +21,7 @@ always search for "views" in the path we give.
 */
 
 /* How does this happen ?
-Express js By default searches in the views folder for the file name given and it display it as we are usign res.render.
+Express js By default searches in the "views" folder for the file name given and it display it as we are usign res.render.
 */
 app.get("/", (req, res) => {
   res.render("home.ejs"); // .ejs is not necessary
