@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Users</title>
+    <style>
+      table, th, td {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Below is the data for all the <%= users.length %> users</h2>
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+      </tr>
+      <% for(user of users) { %>
+        <tr>
+          <td><%= user.id %> </td>
+          <td><%= user.username %> </td> 
+          <td><%= user.email %> </td> 
+          <td> 
+            <form method="GET" action="/user/<%=user.id%>/edit">
+              <button>Edit Username</button>
+            </form>
+          </td>
+          <td>
+            <form method="get" action="/user/<%=user.id%>/delete">
+              <button>Delete</button>
+            </form>
+          </td>
+        </tr>
+     <% } %>
+    </table>
+  </body>
+</html>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Edit Username</title>
+  </head>
+  <body>
+    <h2>You are about to edit this user: <%= user.email %></h2>
+    <form method="post" action="/user/<%=user.id%>?_method=PATCH">
+      <textarea name="username"> <%= user.username %> </textarea>
+      <input name="password" type="password" placeholder="enter password" />
+      <button>Edit</button>
+    </form>
+  </body>
+</html>
