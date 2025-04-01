@@ -38,7 +38,7 @@ app.get("/", (req, res) => {
     // It is used to run any query on database. q is the query and data is the values to be added in db.
     connection.query(q, (err, result) => {
       if(err) throw err;
-      let count = result[0]["count(*)"];
+      let count = result[0]["count(*)"]; // result comes in array of objects, 0th element of array and object whose key is count.
       res.render("home.ejs", { count });
     });
   } catch(err) {
@@ -90,7 +90,7 @@ app.patch("/user/:id", (req, res) => {
       if(err) throw err;
       let user = result[0];
       if(formPass != user.password) { // Check if password in form matches the password from db.
-        res.send("WRONG Password!"); // if not then give this
+        res.send("WRONG Password!"); // if not then display this.
       }
       else {
         let q2 = `UPDATE user SET username='${newUsername}' WHERE id='${id}'`; // if correct password update password
@@ -114,7 +114,7 @@ app.get("/user/new", (req, res) => {
 app.post("/user", (req, res) => {
   let { username, email, password } = req.body;
   let id = uuidv4();
-  let q = `INSERT INTO user (id, username, email, password) VALUES ('${id}', '${username}', '${email}', '${password}')`;
+  let q = `INSERT INTO user (id, username, email, password) VALUES ('${ id }', '${ username }', '${ email }', '${ password }')`;
 
   try {
     connection.query(q, (err, result) => {
@@ -131,7 +131,7 @@ app.post("/user", (req, res) => {
 // Delete a user.
 app.get("/user/:id/delete", (req, res) => {
   let { id } = req.params;
-  let q = `SELECT * FROM user WHERE id='${id}'`;
+  let q = `SELECT * FROM user WHERE id='${ id }'`;
 
   try {
     connection.query(q, (err, result) => {
@@ -157,7 +157,7 @@ app.delete("/user/:id", (req, res) => {
       if (user.password != password) {
         res.send("WRONG Password entered!");
       } else {
-        let q2 = `DELETE FROM user WHERE id='${id}'`; //Query to Delete
+        let q2 = `DELETE FROM user WHERE id='${id}'`; //Query to Delete, as id is in numbers to consider it as string enclose it with ''
         connection.query(q2, (err, result) => {
           if (err) throw err;
           else {
