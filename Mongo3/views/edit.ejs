@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mini Whatsapp</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <p>You are about to edit the message sent to <b><%= chat.to %></b>, message was sent by <b><%= chat.from %></b> </p>
+    <form method="POST" action="/chats/<%=chat._id%>?_method=PUT">
+      <textarea type="text" name="msg" rows="6" cols="50"><%= chat.msg %></textarea> <br/><br/>
+      <button>Edit Chat!</button>
+    </form>
+  </body>
+</html>
