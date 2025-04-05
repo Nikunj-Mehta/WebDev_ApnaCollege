@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WanderLust</title>
+  </head>
+  <body>
+    <h3>Create a New Listing</h3>
+    <form method="POST" action="/listings">
+      <input type="text" name="listing[title]" placeholder="Enter Title">
+      <br/><br/>
+      <textarea name="listing[description]" placeholder=" Enter description"></textarea>
+      <br/><br/>
+      <input type="text" name="listing[image]" placeholder="Enter image URL/Link">
+      <br/><br/>
+      <input type="number" name="listing[price]" placeholder="Enter Price">
+      <br/><br/>
+      <input type="text" name="listing[location]" placeholder="Enter Location">
+      <br/><br/>
+      <input type="text" name="listing[country]" placeholder="Enter Country">
+      <br/><br/>
+      <button>Add</button>
+    </form>
+  </body>
+</html>
