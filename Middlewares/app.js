@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const ExpressError = require("./ExpressError");
 
 // Middleware -> response send, if middleware sends some other response then the "Hello, I am root" will not be printed even if the req is sent to "/" route.
 // app.use((req, res) => {
@@ -44,13 +45,8 @@ const checkToken = (req, res, next) => {
   if(token === "giveaccess") {
     next();
   }
-  throw new Error("ACCESS DENIED!"); // we can throw user defined error.
+  throw new ExpressError(401, "ACCESS DENIED!"); // we can throw user defined error.
 };
-
-// // Express default error handler -> middleware
-// app.get("/wrong", (req, res) => {
-//   abcd = abcd;
-// });
 
 app.get("/api", checkToken, (req, res) => { // middleware passed as a function.
   res.send("data");
@@ -62,6 +58,29 @@ app.get("/", (req, res) => {
 
 app.get("/random", (req, res) => {
   res.send("This is a random page");
+});
+
+// Express default error handler -> middleware
+app.get("/err", (req, res) => {
+  abcd = abcd; 
+});
+
+// Error handling middleware: custom error handler
+app.use((err, req, res, next) => {
+  let {status = 500, message = "Some error occurred"} = err; // Extracting status and message. Given default value 500 to status
+  // next(err); // next() will return page not found, eventhough the page exists. but if we use next(err) this will trigger express default error handler.
+  res.status(status).send(message); // it will return user defined err, instead of express default err.
+});
+
+// app.use((err, req, res, next) => {
+//   console.log("--------ERROR 2 Middleware -----------"); // After first this error handler will be called and after this
+//   next(err); // Express default error handler will be called.
+// });
+
+
+
+app.get("/admin", (req, res) => {
+  throw new ExpressError(403, "Access to adim is firbidden");
 });
 
 app.listen(8080, () => {
