@@ -80,7 +80,7 @@ app.use((err, req, res, next) => {
 
 
 app.get("/admin", (req, res) => {
-  throw new ExpressError(403, "Access to adim is firbidden");
+  throw new ExpressError(403, "Access to admin is forbidden");
 });
 
 app.listen(8080, () => {

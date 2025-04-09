@@ -20,7 +20,7 @@ main().then(() => {
 })
 
 async function main() {
-  await mongoose.connect("mongodb://127.0.0.1:27017/fakewhatsapp");
+  await mongoose.connect("mongodb://127.0.0.1:27017/fakewhatsapp"); // remove fake.
 }
 
 app.get("/", (req, res) => {
@@ -28,14 +28,10 @@ app.get("/", (req, res) => {
 });
 
 // Index Route
-app.get("/chats", async (req, res) => {
-  try{
-    let chats = await Chat.find(); // asynchronous function which will return all chats form db and we are storing it in a variable.
-    res.render("index.ejs", { chats });
-  } catch(err) {
-    next(err);
-  }
-});
+app.get("/chats", asyncWrap(async (req, res) => {
+  let chats = await Chat.find(); // asynchronous function which will return all chats form db and we are storing it in a variable.
+  res.render("index.ejs", { chats });
+}));
 
 // New chat
 app.get("/chats/new", (req, res) => {
