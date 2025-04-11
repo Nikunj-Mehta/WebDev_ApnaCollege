@@ -30,6 +30,7 @@ const Order = mongoose.model("Order", orderSchema);
 
 const Customer = mongoose.model("Customer", customerSchema);
 
+// Functions
 const findCustomer = async () => {
   // let cust1 = new Customer ({
   //   name: "Rahul Kumar"
@@ -61,3 +62,23 @@ findCustomer();
 // };
 
 // addOrders();
+
+const addCust = async () => {
+  let newCust = new Customer({
+    name: "Karan Arjun"
+  });
+
+
+  let newOrder = new Order({
+    item: "Pizza",
+    price: 250
+  });
+
+  newCust.orders.push(newOrder);
+  await newOrder.save();
+  await newCust.save();
+
+  console.log("added new Customer");
+};
+
+addCust();
