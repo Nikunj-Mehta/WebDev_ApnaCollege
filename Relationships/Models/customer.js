@@ -26,6 +26,19 @@ const customerSchema = new Schema({
   ]
 });
 
+// customerSchema.pre("findOneAndDelete", async () => {
+//    console.log("Pre middlware");
+// });
+
+customerSchema.post("findOneAndDelete", async (customer) => {
+  console.log(customer); // form this deleted data we will find all the orders related to that deleted customer and then we will delete it.
+  if(customer.orders.length) {
+    let res = await Order.deleteMany({ _id: { $in: customer.orders } }); // will delete all the orders with id present in customer.orders
+    console.log(res);
+  }
+});
+
+
 const Order = mongoose.model("Order", orderSchema);
 
 const Customer = mongoose.model("Customer", customerSchema);
@@ -50,7 +63,7 @@ const findCustomer = async () => {
   console.log(result[0]);
 }
 
-findCustomer();
+// findCustomer();
 
 // const addOrders = async () => {
 //   let res = await Order.insertMany([
@@ -63,6 +76,7 @@ findCustomer();
 
 // addOrders();
 
+// To create and add a customer with an order
 const addCust = async () => {
   let newCust = new Customer({
     name: "Karan Arjun"
@@ -70,7 +84,7 @@ const addCust = async () => {
 
 
   let newOrder = new Order({
-    item: "Pizza",
+    item: "burger",
     price: 250
   });
 
@@ -81,4 +95,12 @@ const addCust = async () => {
   console.log("added new Customer");
 };
 
-addCust();
+// Delete the customer and the order correspondind it.
+
+const delCust = async () => {
+  let data = await Customer.findByIdAndDelete("67fa0b01571c89df44cb7c06"); // customer named karan arjun is deleted but it's corresponding order is not deleted. But we want to delete it's corresponding middleware for it we will use mongoose middlewares.
+  console.log(data); // Ye jo deleted data hai uski poori access hoti hai humere post middleware k pass.
+};
+
+// addCust();
+delCust();
