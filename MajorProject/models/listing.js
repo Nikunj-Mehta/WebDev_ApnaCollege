@@ -28,6 +28,7 @@ const listingSchema = new Schema({
   ],
 });
 
+// Mongoose middleware if we run findOneAndDelete on listing then after doing it's work and before returning control it will execute the code below, which is, if a listing gets deleted then all the reviews related to that listing also deletes.
 listingSchema.post("findOneAndDelete", async (listing) => {
   if(listing) {
     await Review.deleteMany({_id: {$in: listing.reviews}}); // agar koi listing delete huye to uske andr reviews collection m se vo db docs delete ho jynge jinki id uss listings doc m review[] m the.
