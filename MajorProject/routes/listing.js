@@ -34,6 +34,7 @@ router.get("/new", (req, res) => {
 router.post("/", validateListing, wrapAsync(async (req, res, next) => { // importing and using wrapAsync.
   const newListing = new Listing(req.body.listing);
   await newListing.save();
+  req.flash("success", "New Lisiting Created!");
   res.redirect("/listings");
 }));
 
@@ -42,6 +43,10 @@ router.post("/", validateListing, wrapAsync(async (req, res, next) => { // impor
 router.get("/:id", wrapAsync(async (req,res) => {
   let { id } = req.params;
   let listing = await Listing.findById(id).populate("reviews"); // .populate("reviews") to get all the detail ie entire object in review doc.
+  if(!listing) {
+    req.flash("error", "Listing you requested for does not exist!");
+    res.redirect("/listings");
+  }
   res.render("listings/show.ejs", { listing });
 }));
 
@@ -50,6 +55,12 @@ router.get("/:id", wrapAsync(async (req,res) => {
 router.get("/:id/edit", wrapAsync(async (req, res) => {
   let { id } = req.params;
   let listing = await Listing.findById(id);
+  
+  if(!listing) {
+    req.flash("error", "Listing you requested for does not exist!");
+    res.redirect("/listings");
+  }
+  
   res.render("listings/edit.ejs", { listing });
 }));
 
@@ -57,6 +68,7 @@ router.get("/:id/edit", wrapAsync(async (req, res) => {
 router.put("/:id", validateListing, wrapAsync(async(req, res) => { // passing server side schema validator as middleware.
   let { id } = req.params;
   await Listing.findByIdAndUpdate(id, {...req.body.listing}); // deconstruct and fill the fields by updated values
+  req.flash("success", "Lisiting Updated!");
   res.redirect(`/listings/${id}`);
 }));
 
@@ -65,6 +77,7 @@ router.delete("/:id", wrapAsync(async (req, res) => {
   let { id } = req.params;
   let deletedListing = await Listing.findByIdAndDelete(id);
   console.log(deletedListing);
+  req.flash("success", "Lisiting Deleted!");
   res.redirect("/listings");
 }));
 

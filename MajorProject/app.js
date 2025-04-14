@@ -5,6 +5,8 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
+const session = require("express-session");
+const flash = require("connect-flash");
 
 const listings = require("./routes/listing.js");
 const reviews = require("./routes/review.js");
@@ -29,9 +31,32 @@ app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public"))); // for static files css, js common for all webpages.
 
+const sessionOptions = {
+  secret: "mysupersecret",
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    expires: Date.now() * 7 * 24 * 60 * 60 * 1000, // Date.now() returns exact time in milliseconds.
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    httpOnly: true, // to prevent cross scripting attacks.
+  },
+};
+
 // Root route
 app.get("/", (req, res) => {
   res.send("Hi, I am root");
+});
+
+
+app.use(session(sessionOptions));
+app.use(flash()); // always use before routes.
+
+app.use((req, res, next) => { // middleware
+  res.locals.success = req.flash("success");
+  // console.log(res.locals.success); // gives an array. If nothing done then empty array.
+  
+  res.locals.error = req.flash("error");
+  next();
 });
 
 app.use("/listings", listings); // instead of listing we are using a single line.
