@@ -7,9 +7,13 @@ const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
 const session = require("express-session");
 const flash = require("connect-flash");
+const passport = require("passport");
+const LocalStrategy = require("passport-local"); // to authenticate using username and password.
+const User = require("./models/user.js");
 
-const listings = require("./routes/listing.js");
-const reviews = require("./routes/review.js");
+const listingRouter = require("./routes/listing.js");
+const reviewRouter = require("./routes/review.js");
+const userRouter = require("./routes/user.js");
 
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
@@ -36,7 +40,7 @@ const sessionOptions = {
   resave: false,
   saveUninitialized: true,
   cookie: {
-    expires: Date.now() * 7 * 24 * 60 * 60 * 1000, // Date.now() returns exact time in milliseconds.
+    expires: Date.now() * 7 * 24 * 60 * 60 * 1000, // Date.now() returns exact time in milliseconds. the user's data will be stored as cookie for 7 days.
     maxAge: 7 * 24 * 60 * 60 * 1000,
     httpOnly: true, // to prevent cross scripting attacks.
   },
@@ -48,19 +52,37 @@ app.get("/", (req, res) => {
 });
 
 
-app.use(session(sessionOptions));
+app.use(session(sessionOptions)); // use passport after session as passport uses session. We will not ask user to login if he/she opens same link using diff tab but in same browser.
 app.use(flash()); // always use before routes.
 
+app.use(passport.initialize()); // Jb bhi koi req aye hum initialize kr de passport ko as a middleware.
+app.use(passport.session()); // our web application needs the ability to identify users as they browse from page to page.
+passport.use(new LocalStrategy(User.authenticate())); // User must be authenticated using local-stratergy provided by passport package.
+// use static serialize and deserialize of model for passport session support
+passport.serializeUser(User.serializeUser()); // serialize = to store all the user related info in session.
+passport.deserializeUser(User.deserializeUser()); // deserialize = to unstore (remove) all the user related info from the session.
+
+
 app.use((req, res, next) => { // middleware
-  res.locals.success = req.flash("success");
+  res.locals.success = req.flash("success"); // res.locals method ka kaam hai ki vo ejs tempate m variable pass krta hai success naam se aur uss naam se he hum access kr sakte hai aur usme value rhegi "success" key ka msg
   // console.log(res.locals.success); // gives an array. If nothing done then empty array.
-  
-  res.locals.error = req.flash("error");
+  res.locals.error = req.flash("error"); // similarly error naam ka var rhega aur usme value "error" key ka jo msg hai vo rhegi.
   next();
 });
 
-app.use("/listings", listings); // instead of listing we are using a single line.
-app.use("/listings/:id/reviews", reviews); // return here is parent route "/listing/:id/reviews"
+// app.get("/demouser", async(req, res) => {
+//   let fakeUser = new User({ // create a new user
+//     email: "student@gmail.com", // in schema we only defined email
+//     username: "delta-student" // but we can add username too, becz passport-local-mongoose adds username field itself.
+//   });
+//   // register the new user
+//   let registeredUser = await User.register(fakeUser, "helloworld"); // .register is a static method takes 2 arguments, 1 is user and 2nd is password. It stored the user along with passowrd in our db. and also checks if the username is unique or not.
+//   res.send(registeredUser);
+// });
+
+app.use("/listings", listingRouter); // instead of listing we are using a single line.
+app.use("/listings/:id/reviews", reviewRouter); // return here is parent route "/listing/:id/reviews"
+app.use("/", userRouter)
 
 // Catch-all route for 404 errors
 app.all("*", (req, res, next) => { // If the request is not accepted by any of the above then the req will be accepted here and the response will be sent form here.
@@ -70,8 +92,8 @@ app.all("*", (req, res, next) => { // If the request is not accepted by any of t
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  let {statusCode = 500, message = "Something went wrong"} = err;
-  res.status(statusCode).render("error.ejs", { message });
+  let {statusCode = 500, message="Something went wrong"} = err; // if some message is there the that message will be displayed else "something went wrong" is default value so that message is not empty.
+  res.status(statusCode).render("error.ejs", { message }); // wrapAsync ka jo catch(next) hai vo yaha pr le ayegea.
   // res.status(statusCode).send(message);
 });
 
