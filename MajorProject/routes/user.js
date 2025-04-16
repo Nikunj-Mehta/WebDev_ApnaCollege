@@ -13,7 +13,7 @@ router.post("/signup", wrapAsync(async (req,res) => {
   try{
     let { username, email, password } = req.body;
     const newUser = new User({username, email});
-    const registeredUser = await User.register(newUser, password);
+    const registeredUser = await User.register(newUser, password); // this method authomatically forces user to enter unique username. if not it will give "user with this username already exists." error
     console.log(registeredUser);
     req.flash("success", "Welcome to Wanderlust");
     res.redirect("/listings");
@@ -27,7 +27,7 @@ router.get("/login", (req, res) => {
   res.render("users/login.ejs");
 });
 
-router.post("/login", passport.authenticate("local", {failureRedirect: "/login", failureFlash: true}), wrapAsync(async (req, res) => { // passport.authenticate: used as route middleware to authenticate requests.
+router.post("/login", passport.authenticate("local", {failureRedirect: "/login", failureFlash: true}), wrapAsync(async (req, res) => { // passport.authenticate: used as route middleware to authenticate requests. failureRedirect in case of failure redirect to /login page, failureFlash if any error occurs or user enters wrong username or password then that is displayed as a flash msg.
   req.flash("success", "Welcome back to Wanderlust");
   res.redirect("/listings");
 }))
