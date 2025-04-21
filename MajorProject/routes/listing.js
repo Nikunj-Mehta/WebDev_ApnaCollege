@@ -27,7 +27,7 @@ router.get("/", wrapAsync(async (req, res) => {
 
 // Create: New Route Must be written before as it might be interpreted as listings/:id
 router.get("/new", (req, res) => {
-  res.render("listings/new.ejs"); // Had to do some college work will start form here.
+  res.render("listings/new.ejs"); // Had to do some college work practicals and prelims will start from here after 3 days.
 });
 
 // Create route
