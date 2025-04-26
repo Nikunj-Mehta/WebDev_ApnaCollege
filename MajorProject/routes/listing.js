@@ -4,7 +4,7 @@ const Listing = require("../models/listing.js");
 const wrapAsync = require("../utils/wrapAsync.js");
 const ExpressError = require("../utils/ExpressError.js");
 const { listingSchema } = require("../schema.js");
-
+const { isLoggedIn } = require("../middleware.js");
 
 // to validate server side listing using joi
 const validateListing = (req, res, next) => {
@@ -26,12 +26,12 @@ router.get("/", wrapAsync(async (req, res) => {
 
 
 // Create: New Route Must be written before as it might be interpreted as listings/:id
-router.get("/new", (req, res) => {
-  res.render("listings/new.ejs"); // Had to do some college work practicals and prelims will start from here.
+router.get("/new", isLoggedIn, (req, res) => {
+  res.render("listings/new.ejs"); 
 });
 
 // Create route
-router.post("/", validateListing, wrapAsync(async (req, res, next) => { // importing and using wrapAsync.
+router.post("/", isLoggedIn, validateListing, wrapAsync(async (req, res, next) => { // importing and using wrapAsync. we need isLoggedIn here because if someone sends post req from hoppscotch.
   const newListing = new Listing(req.body.listing);
   await newListing.save();
   req.flash("success", "New Lisiting Created!");
@@ -52,7 +52,7 @@ router.get("/:id", wrapAsync(async (req,res) => {
 
 
 // Edit route
-router.get("/:id/edit", wrapAsync(async (req, res) => {
+router.get("/:id/edit", isLoggedIn, wrapAsync(async (req, res) => {
   let { id } = req.params;
   let listing = await Listing.findById(id);
   
@@ -65,7 +65,7 @@ router.get("/:id/edit", wrapAsync(async (req, res) => {
 }));
 
 // Update route
-router.put("/:id", validateListing, wrapAsync(async(req, res) => { // passing server side schema validator as middleware.
+router.put("/:id", isLoggedIn, validateListing, wrapAsync(async(req, res) => { // passing server side schema validator as middleware.
   let { id } = req.params;
   await Listing.findByIdAndUpdate(id, {...req.body.listing}); // deconstruct and fill the fields by updated values
   req.flash("success", "Lisiting Updated!");
@@ -73,7 +73,7 @@ router.put("/:id", validateListing, wrapAsync(async(req, res) => { // passing se
 }));
 
 // Delete route
-router.delete("/:id", wrapAsync(async (req, res) => {
+router.delete("/:id", isLoggedIn, wrapAsync(async (req, res) => {
   let { id } = req.params;
   let deletedListing = await Listing.findByIdAndDelete(id);
   console.log(deletedListing);

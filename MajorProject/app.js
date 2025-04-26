@@ -26,7 +26,7 @@ main().then(() => {
 
 async function main() {
   await mongoose.connect(MONGO_URL);
-}
+};
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -67,6 +67,8 @@ app.use((req, res, next) => { // middleware
   res.locals.success = req.flash("success"); // res.locals method ka kaam hai ki vo ejs tempate m variable pass krta hai success naam se aur uss naam se he hum access kr sakte hai aur usme value rhegi "success" key ka msg
   // console.log(res.locals.success); // gives an array. If nothing done then empty array.
   res.locals.error = req.flash("error"); // similarly error naam ka var rhega aur usme value "error" key ka jo msg hai vo rhegi.
+
+  res.locals.currentUser = req.user; // to pass req.user in navbar.ejs (To display only login and signup if user is not logged in or req.user = undefined and logout if user exists that is req.user = some object).
   next();
 });
 
