@@ -30,7 +30,12 @@ router.post("/", isLoggedIn, validateListing, wrapAsync(async (req, res, next) =
 // Read: Show route
 router.get("/:id", wrapAsync(async (req,res) => {
   let { id } = req.params;
-  let listing = await Listing.findById(id).populate("reviews").populate("owner"); // .populate("reviews") to get all the detail ie entire object in review doc. all to get all info about owner instead of just getting their objectId.
+  let listing = await Listing.findById(id).populate({
+    path: "reviews",
+     populate: { // nested populate.
+      path: "author", // for every review we need its author's details too. 
+     },
+    }).populate("owner"); // .populate("reviews") to get all the detail ie entire object in review doc. all to get all info about owner instead of just getting their objectId.
   if(!listing) {
     req.flash("error", "Listing you requested for does not exist!");
     res.redirect("/listings");
