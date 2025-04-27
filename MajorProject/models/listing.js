@@ -26,6 +26,10 @@ const listingSchema = new Schema({
       ref: "Review",
     },
   ],
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 // Mongoose middleware if we run findOneAndDelete on listing then after doing it's work and before returning control it will execute the code below, which is, if a listing gets deleted then all the reviews related to that listing also deletes.

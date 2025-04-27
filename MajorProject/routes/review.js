@@ -1,22 +1,9 @@
 const express = require("express");
 const router =  express.Router({mergeParams: true}); // Created a router object. to get parent params.
 const wrapAsync = require("../utils/wrapAsync.js");
-const ExpressError = require("../utils/ExpressError.js");
-const { reviewSchema } = require("../schema.js");
 const Listing = require("../models/listing.js");
 const Review = require("../models/review.js");
-
-
-// to validate server side review using joi
-const validateReview = (req, res, next) => {
-  let { error } = reviewSchema.validate(req.body); // Jo humne listingSchema create kra hai using Joi uske andr hum check kr rhe hai ki jo bhi req ki body m hai vo valid hai ya nhi.
-  if(error) {
-    let errMsg = error.details.map((el) => el.message).join(","); // join all the error details or multiple details with ,
-    throw new ExpressError(400, errMsg);
-  } else {
-    next();
-  }
-};
+const { validateReview } = require("../middleware.js");
 
 // Post Review route
 router.post("/", validateReview, wrapAsync(async (req, res) => {

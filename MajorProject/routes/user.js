@@ -3,7 +3,7 @@ const router =  express.Router(); // Created a router object. to get parent para
 const wrapAsync = require("../utils/wrapAsync.js");
 const User = require("../models/user.js");
 const passport = require("passport");
-const { isLoggedIn } = require("../middleware.js");
+const { isLoggedIn, saveRedirectUrl } = require("../middleware.js");
 
 
 router.get("/signup", (req, res) => {
@@ -36,9 +36,16 @@ router.get("/login", (req, res) => {
   res.render("users/login.ejs");
 });
 
-router.post("/login", passport.authenticate("local", {failureRedirect: "/login", failureFlash: true}), wrapAsync(async (req, res) => { // passport.authenticate: used as route middleware to authenticate requests. failureRedirect in case of failure redirect to /login page, failureFlash if any error occurs or user enters wrong username or password then that is displayed as a flash msg.
+router.post("/login",
+  saveRedirectUrl,  // just before passport logges in user we need to save the value in locals.
+  passport.authenticate("local", {
+    failureRedirect: "/login", 
+    failureFlash: true
+  }), 
+  wrapAsync(async (req, res) => { // passport.authenticate: used as route middleware to authenticate requests. failureRedirect in case of failure redirect to /login page, failureFlash if any error occurs or user enters wrong username or password then that is displayed as a flash msg.
   req.flash("success", "Welcome back to Wanderlust");
-  res.redirect("/listings");
+  let redirectUrl = res.locals.redirectUrl ? res.locals.redirectUrl : "/listings"; 
+  res.redirect(redirectUrl);
 }));
 
 router.get("/logout", isLoggedIn, (req, res, next) => {

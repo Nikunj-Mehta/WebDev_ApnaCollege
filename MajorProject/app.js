@@ -68,7 +68,7 @@ app.use((req, res, next) => { // middleware
   // console.log(res.locals.success); // gives an array. If nothing done then empty array.
   res.locals.error = req.flash("error"); // similarly error naam ka var rhega aur usme value "error" key ka jo msg hai vo rhegi.
 
-  res.locals.currentUser = req.user; // to pass req.user in navbar.ejs (To display only login and signup if user is not logged in or req.user = undefined and logout if user exists that is req.user = some object).
+  res.locals.currUser = req.user; // to pass req.user in navbar.ejs (To display only login and signup if user is not logged in or req.user = undefined and logout if user exists that is req.user = some object).
   next();
 });
 
