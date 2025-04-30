@@ -13,7 +13,7 @@ router
   .get(wrapAsync(listingController.index)) // Index Route
   // .post(isLoggedIn, validateListing, wrapAsync(listingController.createListing)); // Create route
   .post(upload.single('listing[image]'), (req, res) => { // Jaise he post req aye "/" pr waise he multer jo listingImage se single image aa rhe hai vo uploads naam k folder m upload kr de.
-    res.send(req.file); // becz we are using multer
+    res.send(req.file); // becz we are using multer and all file related data will appear here.
   })
 // Create: New Route Must be written before as it might be interpreted as listings/:id
 router.get("/new", isLoggedIn, listingController.renderNewForm);
