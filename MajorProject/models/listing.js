@@ -20,7 +20,7 @@ const listingSchema = new Schema({
   price: Number,
   location: String,
   country: String,
-  reviews: [ // listing k andr reviews ki id show hogi.
+  reviews: [ // listing k andr reviews ki id show hogi. Iss array m review push hoga phir review db m review save hoga aur phir listing save hogi db m jisme uska review array m added review rhega.
     {
       type: Schema.Types.ObjectId,
       ref: "Review",
