@@ -25,7 +25,13 @@ router.get("/new", isLoggedIn, listingController.renderNewForm);
 router
   .route("/:id")
   .get(wrapAsync(listingController.showListing)) // Read: Show route
-  .put(isLoggedIn, isOwner, validateListing, wrapAsync(listingController.updateListing)) // Update route
+  .put(
+    isLoggedIn, 
+    isOwner, 
+    upload.single("listing[image]"), // Multer will parse our image then it will be stored in cloud inside folder named wanderlust.
+    validateListing, 
+    wrapAsync(listingController.updateListing)
+  ) // Update route
   .delete(isLoggedIn, isOwner, wrapAsync(listingController.destroyListing)); // Delete route
 
 // Edit route

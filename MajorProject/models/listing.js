@@ -25,6 +25,17 @@ const listingSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
+  geometry: {
+    type: {
+      type: String, // Don't do '{location: {type: String}}'
+      enum: ['Point'], // 'location.type' must be 'Point'
+      required: true
+    },
+    coordinates: {
+      type: [Number],
+      required: true
+    }
+  }
 });
 
 // Mongoose middleware if we run findOneAndDelete on listing then after doing it's work and before returning control it will execute the code below, which is, if a listing gets deleted then all the reviews related to that listing also deletes.

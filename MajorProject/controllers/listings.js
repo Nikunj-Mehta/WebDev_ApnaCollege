@@ -1,4 +1,7 @@
 const Listing = require("../models/listing.js");
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const mapToken = process.env.MAP_TOKEN;
+const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
 // Its job is to render all the listings.
 module.exports.index = async (req, res) => {
@@ -13,6 +16,12 @@ module.exports.renderNewForm = (req, res) => {
 
 // After receiving data from the new listing form, save it to the database and re-render the listings page with the new listing included.
 module.exports.createListing = async (req, res, next) => { // importing and using wrapAsync. we need isLoggedIn here because if someone sends post req from hoppscotch.
+  let response = await geocodingClient.forwardGeocode({
+    query: req.body.listing.location,
+    limit: 1
+  })
+    .send()
+  
   let url = req.file.path; // Now we need to save these 2 things in our db.
   let filename = req.file.filename;
   console.log(url, " ... ", filename);
@@ -20,8 +29,11 @@ module.exports.createListing = async (req, res, next) => { // importing and usin
   // console.log(req.user); // Passport object stores all the current user related info in our req object and we can verify that here.
   newListing.owner = req.user._id; // to add owner who is logged in on our website as the owner of the new listing.
   newListing.image = {url, filename};
+
+  newListing.geometry = response.body.features[0].geometry; // this will give us coordinates.
   
-  await newListing.save();
+  let savedListing = await newListing.save();
+  console.log(savedListing);
   req.flash("success", "New Lisiting Created!");
   res.redirect("/listings");
 };
@@ -53,13 +65,22 @@ module.exports.renderEditForm = async (req, res) => {
     res.redirect("/listings");
   }
   
-  res.render("listings/edit.ejs", { listing });
+  let originalImageUrl = listing.image.url;
+  originalImageUrl = originalImageUrl.replace("/upload", "/upload/w_250"); // to change properties of image edit url.
+  res.render("listings/edit.ejs", { listing, originalImageUrl });
 };
 
 // Takes the data from the edit form, updates it in the database, and re-renders the listing with the changes.
 module.exports.updateListing = async(req, res) => { // passing server side schema validator as middleware.
   let { id } = req.params;
-  await Listing.findByIdAndUpdate(id, {...req.body.listing}); // deconstruct and fill the fields by updated values
+  let listing = await Listing.findByIdAndUpdate(id, {...req.body.listing}); // deconstruct and fill the fields by updated values. These values will update all except image for that we need to do it again below.
+
+  if(typeof req.file !== "undefined") { // If user didn't gave any image,  he just updated title or description then this will be undefined. We need to update image only if user gives a new image.
+    let url = req.file.path; // Now we need to save these 2 things in our db.
+    let filename = req.file.filename;
+    listing.image = { url, filename }; // then update the image field of listing. first upload the file on cloud take it's url and filename then,
+    await listing.save(); // save it in db.
+  }
   req.flash("success", "Lisiting Updated!");
   res.redirect(`/listings/${id}`);
 };
