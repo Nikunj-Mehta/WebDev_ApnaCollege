@@ -13,9 +13,14 @@ module.exports.renderNewForm = (req, res) => {
 
 // After receiving data from the new listing form, save it to the database and re-render the listings page with the new listing included.
 module.exports.createListing = async (req, res, next) => { // importing and using wrapAsync. we need isLoggedIn here because if someone sends post req from hoppscotch.
+  let url = req.file.path; // Now we need to save these 2 things in our db.
+  let filename = req.file.filename;
+  console.log(url, " ... ", filename);
   const newListing = new Listing(req.body.listing);
   // console.log(req.user); // Passport object stores all the current user related info in our req object and we can verify that here.
   newListing.owner = req.user._id; // to add owner who is logged in on our website as the owner of the new listing.
+  newListing.image = {url, filename};
+  
   await newListing.save();
   req.flash("success", "New Lisiting Created!");
   res.redirect("/listings");
