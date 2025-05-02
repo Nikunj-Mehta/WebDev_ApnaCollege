@@ -9,6 +9,24 @@ module.exports.index = async (req, res) => {
   res.render("listings/index.ejs", { allListings });
 };
 
+// Its work is to extract search query form req.query if noting searched display allListings, else find the listings matching with search keyword and display all those listings.
+module.exports.searchResult = async (req, res) => {
+  const { search } = req.query; // To extract the searched part.
+  if(!search) {
+    req.flash("error", "No listings found matching your search. However, here are all the available listings.");
+    return res.redirect("/listings");
+  }
+
+  const filteredListings = await Listing.find({title: {$regex: search, $options: "i"}}); // case-insensitive search
+
+  if (filteredListings.length === 0) {
+    req.flash("error", "No listings found matching your search. However, here are all the available listings."); // if no listings matched the current search.
+    return res.redirect("/listings");
+  }
+
+  res.render("listings/index.ejs", { allListings: filteredListings }); // reused the listing.ejs to show filtered listings.
+};
+
 // If the user wants to add a new listing, it will render a form asking for the required listing information.
 module.exports.renderNewForm = (req, res) => {
   res.render("listings/new.ejs");

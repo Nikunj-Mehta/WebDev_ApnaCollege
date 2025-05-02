@@ -51,9 +51,9 @@ const sessionOptions = {
 };
 
 // Root route
-app.get("/", (req, res) => {
-  res.send("Hi, I am root");
-});
+// app.get("/", (req, res) => {
+//   res.send("Hi, I am root");
+// });
 
 
 app.use(session(sessionOptions)); // use passport after session as passport uses session. We will not ask user to login if he/she opens same link using diff tab but in same browser.

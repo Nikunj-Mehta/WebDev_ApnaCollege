@@ -16,7 +16,10 @@ router
     upload.single("listing[image]"), // Jaise he post req aye "/" pr waise he multer jo listingImage se single image aa rhe hai vo cloud pr wanderlust naam k folder m upload kr de.
     validateListing,
     wrapAsync(listingController.createListing) // Create route
-  ); 
+  );
+  
+// Search route
+router.get("/search", wrapAsync(listingController.searchResult));
 
 
 // Create: New Route Must be written before as it might be interpreted as listings/:id
