@@ -43,8 +43,8 @@ module.exports.createListing = async (req, res, next) => { // importing and usin
   let url = req.file.path; // Now we need to save these 2 things in our db.
   let filename = req.file.filename;
   console.log(url, " ... ", filename);
-  const newListing = new Listing(req.body.listing);
-  // console.log(req.user); // Passport object stores all the current user related info in our req object and we can verify that here.
+  const newListing = new Listing(req.body.listing); // saving all the listings info taken in array here.
+  console.log(req.user); // Passport object stores all the current user related info in our req object and we can verify that here.
   newListing.owner = req.user._id; // to add owner who is logged in on our website as the owner of the new listing.
   newListing.image = {url, filename};
 

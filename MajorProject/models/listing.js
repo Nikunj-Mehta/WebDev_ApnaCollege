@@ -25,7 +25,7 @@ const listingSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  geometry: {
+  geometry: { // if you need to make any changes then first comment this part cause it is not filled in data.js and we are not doing cause it might exceed our limit of MapBox
     type: {
       type: String, // Don't do '{location: {type: String}}'
       enum: ['Point'], // 'location.type' must be 'Point'
@@ -36,10 +36,11 @@ const listingSchema = new Schema({
       required: true
     }
   },
-  // category: {
-  //   type: String,
-  //   enum:["Trending", "Rooms", "Iconic cities", "Mountains", "Castles", "Farms", "Castles", "Arctic"]
-  // }
+  category: { // added a category field.
+    type: String,
+    enum:["Trending", "Rooms", "Iconic city", "Mountains", "Castle", "Camping", "Farms", "Arctic", "Beach", "Boats"],
+    required: true,
+  },
 });
 
 // Mongoose middleware if we run findOneAndDelete on listing then after doing it's work and before returning control it will execute the code below, which is, if a listing gets deleted then all the reviews related to that listing also deletes.

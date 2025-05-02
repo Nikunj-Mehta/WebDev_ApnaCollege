@@ -123,5 +123,53 @@ body {
 #map {
   height: 400px;
   width: 80vh;
+}
 
+/* styling for index.ejs */
+#filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.filter {
+  text-align: center;
+  margin-right: 2rem;
+  margin-top: 2rem;
+  opacity: 0.7;
+}
+
+.filter:hover {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.filter p {
+  font-size: 0.8rem;
+}
+
+#filters::-webkit-scrollbar {
+  display: none;                  /* To remove horizontal scroll bar */
+}
+
+/* to adjust the tax switch button */
+.tax-toggle {
+white-space: nowrap;
+display: flex;
+align-items: center;
+padding: 1rem;
+border: 1px solid black;
+border-radius: 1rem;
+height: 3.25rem;
+}
+
+/* Responsive tweak */
+@media (max-width: 768px) {
+.tax-toggle label {
+  font-size: 0.75rem;
+}
+}
+
+.tax-info {
+display: none;
 }

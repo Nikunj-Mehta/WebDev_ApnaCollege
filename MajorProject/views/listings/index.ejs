@@ -3,56 +3,7 @@
 <!-- <form method="GET" action="/listings/new">
   <button>Create New Listing</button>
 </form> -->
-<style>
-  #filters {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  
-  .filter {
-    text-align: center;
-    margin-right: 2rem;
-    margin-top: 2rem;
-    opacity: 0.7;
-  }
 
-  .filter:hover {
-    opacity: 1;
-    cursor: pointer;
-  }
-
-  .filter p {
-    font-size: 0.8rem;
-  }
-
-  #filters::-webkit-scrollbar {
-    display: none;                  /* To remove horizontal scroll bar */
-  }
-
-  /* to adjust the tax switch button */
-  .tax-toggle {
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  padding: 1rem;
-  border: 1px solid black;
-  border-radius: 1rem;
-  height: 3.25rem;
-}
-
-/* Responsive tweak */
-@media (max-width: 768px) {
-  .tax-toggle label {
-    font-size: 0.75rem;
-  }
-}
-
-  .tax-info {
-    display: none;
-  }
-
-</style>
 <!-- Container: arrows + scrollable filters + switch outside scroll -->
 <div class="d-flex align-items-center border-bottom px-2 py-2">
 
@@ -121,9 +72,9 @@
 
     <div class="filter text-center">
       <div>
-        <i class="fa-solid fa-igloo"></i>
+        <i class="fa-solid fa-umbrella-beach"></i>
       </div>
-      <p>Domes</p>
+      <p>Beach</p>
     </div>
 
     <div class="filter text-center">
@@ -168,26 +119,3 @@
     </a>
   <% } %>
 </div>
-
-<script>
-  // working of right and left for scroll
-  const scrollContainer = document.getElementById('filters');
-  document.getElementById('scrollLeft').addEventListener('click', () => {
-    scrollContainer.scrollBy({ left: -200, behavior: 'smooth' });
-  });
-  document.getElementById('scrollRight').addEventListener('click', () => {
-    scrollContainer.scrollBy({ left: 200, behavior: 'smooth' });
-  });
-
-  let taxSwitch = document.getElementById("switchCheckDefault");
-  taxSwitch.addEventListener("click", () => {
-    let taxInfo = document.getElementsByClassName("tax-info")
-    for(info of taxInfo) {
-      if(info.style.display != "inline") {
-        info.style.display = "inline";
-      } else {
-        info.style.display = "none";
-      }
-    }
-  });
-</script>

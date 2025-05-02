@@ -7,7 +7,8 @@ module.exports.listingSchema = Joi.object({ // joi k andr humere pass ek object 
     price: Joi.number().required().min(0),
     country: Joi.string().required(),
     location: Joi.string().required(),
-    image: Joi.string().allow("", null)
+    image: Joi.string().allow("", null),
+    category: Joi.string().required()
   }).required() 
 });
 
