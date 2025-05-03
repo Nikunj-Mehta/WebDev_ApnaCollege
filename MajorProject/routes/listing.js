@@ -19,8 +19,10 @@ router
   );
   
 // Search route
-router.get("/search", wrapAsync(listingController.searchResult));
+router.get("/search", wrapAsync(listingController.searchedListings));
 
+// for icons: filter by category route
+router.get("/category/:category", wrapAsync(listingController.filteredListings)); // Taking category filed out ie if req is sent to listings/category/Trending then Trending will be saved in category variable.
 
 // Create: New Route Must be written before as it might be interpreted as listings/:id
 router.get("/new", isLoggedIn, listingController.renderNewForm);
@@ -32,7 +34,7 @@ router
     isLoggedIn, 
     isOwner, 
     upload.single("listing[image]"), // Multer will parse our image then it will be stored in cloud inside folder named wanderlust.
-    validateListing, 
+    validateListing,
     wrapAsync(listingController.updateListing)
   ) // Update route
   .delete(isLoggedIn, isOwner, wrapAsync(listingController.destroyListing)); // Delete route

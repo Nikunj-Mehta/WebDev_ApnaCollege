@@ -8,7 +8,7 @@ module.exports.listingSchema = Joi.object({ // joi k andr humere pass ek object 
     country: Joi.string().required(),
     location: Joi.string().required(),
     image: Joi.string().allow("", null),
-    category: Joi.string().required()
+    category: Joi.string().required() // added category field for filter icons.
   }).required() 
 });
 

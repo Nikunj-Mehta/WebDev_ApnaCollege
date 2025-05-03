@@ -148,8 +148,9 @@ body {
   font-size: 0.8rem;
 }
 
+/* To remove horizontal scroll bar */
 #filters::-webkit-scrollbar {
-  display: none;                  /* To remove horizontal scroll bar */
+  display: none;                  
 }
 
 /* to adjust the tax switch button */
@@ -172,4 +173,10 @@ height: 3.25rem;
 
 .tax-info {
 display: none;
+}
+
+/* to remove anchor tag styling on icons on index.ejs */
+a.filter-link {
+  text-decoration: none;
+  color: inherit;
 }

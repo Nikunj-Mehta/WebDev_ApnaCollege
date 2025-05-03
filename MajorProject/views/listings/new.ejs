@@ -27,18 +27,19 @@
       <div class="input-group mb-3">
         <label class="input-group-text" for="category">Options</label>
         <select class="form-control" type="text" name="listing[category]" required>
-          <option selected disabled>Choose category...</option>
-          <option value="Trending">Trending</option>
-          <option value="Rooms">Rooms</option>
-          <option value="Iconic city">Iconic city</option>
-          <option value="Mountains">Mountains</option>
-          <option value="Castle">Castles</option>
-          <option value="Camping">Camping</option>
-          <option value="Farms">Farms</option>
-          <option value="Arctic">Arctic</option>
-          <option value="Beach">Beach</option>
-          <option value="Boats">Boats</option>
+          <option value="" selected disabled>Choose category...</option>
+
+          <!-- display all the category form this categories using forEach loop -->
+          <!-- this array is taken form listings enum in models -->
+          <% const categories = ["Trending", "Rooms", "Iconic city", "Mountains", "Castle", "Camping", "Farms", "Arctic", "Beach", "Boats"]; %> 
+          <% categories.forEach(category => { %>
+              <option value="<%= category %>"><%= category %></option>
+          <% }); %>
         </select>
+
+        <div class="valid-feedback">Category Looks good!</div>
+        <div class="invalid-feedback">Please choose a category.</div>
+
       </div>
 
       <div class="row">

@@ -10,22 +10,35 @@ module.exports.index = async (req, res) => {
 };
 
 // Its work is to extract search query form req.query if noting searched display allListings, else find the listings matching with search keyword and display all those listings.
-module.exports.searchResult = async (req, res) => {
+module.exports.searchedListings = async (req, res) => {
   const { search } = req.query; // To extract the searched part.
   if(!search) {
-    req.flash("error", "No listings found matching your search. However, here are all the available listings.");
+    req.flash("error", "Please enter something to search for.");
     return res.redirect("/listings");
   }
 
-  const filteredListings = await Listing.find({title: {$regex: search, $options: "i"}}); // case-insensitive search
+  const searchedListings = await Listing.find({title: {$regex: search, $options: "i"}}); // case-insensitive search
 
-  if (filteredListings.length === 0) {
+  if (searchedListings.length === 0) {
     req.flash("error", "No listings found matching your search. However, here are all the available listings."); // if no listings matched the current search.
     return res.redirect("/listings");
   }
 
-  res.render("listings/index.ejs", { allListings: filteredListings }); // reused the listing.ejs to show filtered listings.
+  res.render("listings/index.ejs", { allListings: searchedListings }); // reused the listing.ejs to show filtered listings.
 };
+
+// Take category from req.params then in filtered listings search the listings array for category in db and then render index with filteredListings.
+module.exports.filteredListings = async(req, res) => {
+  const { category } = req.params; // Taking category filed out ie if req is sent to listings/category/Trending then Trending will be saved in category variable.
+  const filteredListings = await Listing.find({ category });
+  
+  if(filteredListings.length == 0) {
+    req.flash("error", "Airbnb for this category is not available, Here are all the other available options.");
+    return res.redirect("/listings");
+  }
+  
+  res.render("listings/index.ejs", { allListings: filteredListings });
+}
 
 // If the user wants to add a new listing, it will render a form asking for the required listing information.
 module.exports.renderNewForm = (req, res) => {
