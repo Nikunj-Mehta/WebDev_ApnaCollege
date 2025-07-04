@@ -33,7 +33,7 @@ module.exports.filteredListings = async(req, res) => {
   const filteredListings = await Listing.find({ category });
   
   if(filteredListings.length == 0) {
-    req.flash("error", "Airbnb for this category is not available, Here are all the other available options.");
+    req.flash("error", "No listed locations for this category, Here are all the other available options.");
     return res.redirect("/listings");
   }
   

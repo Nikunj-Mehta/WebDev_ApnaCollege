@@ -90,10 +90,14 @@
     </div>
     <% } %>
   </div>
-  <div class="col-6 offset-3 mb-3">
-    <h3>Where you'll be</h3>
-    <div id="map"></div>
-  </div>  
+
+  <!-- checks if listing.geometry exists, ensures coordinates is an array, and contains exactly 2 items (longitude and latitude) -->
+  <% if (listing.geometry && Array.isArray(listing.geometry.coordinates) && listing.geometry.coordinates.length === 2) { %>
+    <div class="col-6 offset-3 mb-3">
+      <h3>Where you'll be</h3>
+      <div id="map"></div>
+    </div>
+  <% } %>
 </div>
 
 <script src="/js/map.js"></script>

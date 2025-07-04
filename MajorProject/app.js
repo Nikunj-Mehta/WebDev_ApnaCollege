@@ -10,6 +10,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
 const session = require("express-session");
+const MongoStore = require("connect-mongo"); // to use mongo-store for sessions storage on cloud for deployment of our project.
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local"); // to authenticate using username and password.
@@ -20,7 +21,8 @@ const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+// const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+const dbUrl = process.env.ATLASDB_URL;
 
 main().then(() => {
   console.log("Connected to DB");
@@ -29,7 +31,7 @@ main().then(() => {
 });
 
 async function main() {
-  await mongoose.connect(MONGO_URL);
+  await mongoose.connect(dbUrl);
 };
 
 app.set("view engine", "ejs");
@@ -39,8 +41,21 @@ app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public"))); // for static files css, js common for all webpages.
 
+const store = MongoStore.create({ // Method used to create new mongo store.
+  mongoUrl: dbUrl, // info iss url pr store hogi jo mongo AtlasDB ki link hai, if we want to store data on our local DB then give MONGO_URL.
+  crypto: {
+    secret: process.env.SECRET
+  },
+  touchAfter: 3600 * 24 // Interval between session updates. If there is no change in session the when we will update our infomation. Interval is passed in seconds 24 hours.
+});
+
+store.on("error", () => {
+  console.log("Error in MONGON SESSION STORE", err);
+});
+
 const sessionOptions = {
-  secret: "mysupersecret",
+  store, // Now our session related info will be stored in Atlas DB.
+  secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -54,7 +69,6 @@ const sessionOptions = {
 // app.get("/", (req, res) => {
 //   res.send("Hi, I am root");
 // });
-
 
 app.use(session(sessionOptions)); // use passport after session as passport uses session. We will not ask user to login if he/she opens same link using diff tab but in same browser.
 app.use(flash()); // always use before routes.
