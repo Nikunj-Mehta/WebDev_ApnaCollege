@@ -5,9 +5,9 @@ function ProductTab() {
   let options2 = { a: "hi-tech", b: "durable", c: "fast" };
   return (
     <>
-      <Product title="phone" price={30000} features={options} features2={["hi-tech", "durable"]} features3={{a: "hi-tech", b: "durable"}} />
-      {/* <Product title="laptop" price={40000}  />
-      <Product title="pen" price={1} /> */}
+      <Product title="phone" price={30000} features={options} features2={["hi-tech", "durable"]} features3={{a: "hi-tech", b: "durable"}} features4={options2} />
+      <Product title="laptop" price={40000}  />
+      <Product title="pen" price={1} />
     </>
   );
 }
