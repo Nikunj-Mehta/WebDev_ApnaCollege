@@ -1,17 +1,25 @@
 import "./Product.css";
+import Price from "./Price";"./Price.jsx"
 
-function Product({ title, price = 10, features, features2, features3, features4 }) { //  we can destructure the fields as we know props come as object. We can pass default values to props as well
-  // const list = features2.map((feature) => <li>{feature}</li>);  // instead of defining here use it directly below
-  let isDiscount = price > 30000;
-  let styles = { backgroundColor: isDiscount ? "yellow" : null };
-
+function Product({title, idx}) { //  we can destructure the fields as we know props come as object. We can pass default values to props as well
+  let oldPrice = ["12,495", "11,900", "1,599", "599"];
+  let newPrice = ["8,999", "9,199", "899", "278"];
+  let description = [
+    ["8,000 DPI", "5 Programmable buttons"], 
+    ["intuitive surface", "designed for iPad Pro"], 
+    ["designed for iPad Pro", "intuitive surface"], 
+    ["wireless", "optical oriented"]
+  ];
   return (
-    <div className="Product" style={styles}>
-      <h3>{title}</h3>
-      <h5>Price: {price}</h5>
-      {isDiscount && <p style={{color:'red'}}>Discount: 5%</p>}
+    <div className="Product">
+      <h4>{title}</h4>
+      <ul>
+        <li>{description[idx][0]}</li>
+        <li>{description[idx][1]}</li>
+      </ul>
+      <Price oldPrice={oldPrice[idx]} newPrice={newPrice[idx]} />
     </div>
   );
 }
 
-export default Product;
+export default Product; 
