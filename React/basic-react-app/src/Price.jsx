@@ -10,9 +10,9 @@ export default function Price({oldPrice, newPrice}) {
   };
   return(
     <div style={styles}>
-      <span style={oldStyles}>{oldPrice}</span>
+      <span style={oldStyles}> {oldPrice} </span>
       &nbsp; &nbsp;
-      <span style={newStyles}>{newPrice}</span>
+      <span style={newStyles}> {newPrice} </span>
     </div>
   );
 }
