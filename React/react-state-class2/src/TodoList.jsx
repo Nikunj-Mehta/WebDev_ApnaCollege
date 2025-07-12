@@ -54,14 +54,14 @@ export default function TodoList() {
       <ul>
         {tasks.map((task) => (
           <li key={task.id}>
-            <span style={{textDecoration: task.isDone ? "line-through" : ""}}>{task.todo}</span> &nbsp; &nbsp; &nbsp;
+            <span style={task.isDone ? {textDecoration: "line-through"} : {} }>{task.todo}</span> &nbsp; &nbsp; &nbsp;
             <button onClick={() => deleteTodo(task.id)}>Delete</button> &nbsp; &nbsp;
             <button onClick={() => doneOne(task.id)}>Mark as done</button>
           </li>
         ))}
       </ul>
       <br></br>
-      <button onClick={doneAll}>Done All</button>
+      <button onClick={doneAll}>Mark all as done</button>
     </div>
   )
 }
