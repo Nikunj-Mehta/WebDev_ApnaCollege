@@ -1,14 +1,17 @@
 import './App.css';
 import Form from './Form';
-import CommentForm from './CommentsForm';
 import Comment from './Comment';
+import Counter from './Counter';
+import Joker from './Joker';
 
 function App() {
   return (
     <>
       {/* <Form /> */}
       {/* <CommentForm /> */}
-      <Comment />
+      {/* <Comment /> */}
+      {/* <Counter /> */}
+      <Joker />
     </>
   )
 }
