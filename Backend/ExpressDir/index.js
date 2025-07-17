@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
 
 // Path Parameters
 app.get("/:username/:id", (req, res) => {
-  let { username, id } = req.params; // Extract username from URL
+  let { username, id } = req.params; // Destructuring the request object and extracting the fields username from URL. As the express converts https text based request to request object.
   let htmlStr = `<h1>Welcome to the page of @${username}, You have ID: ${id}</h1>`
   res.send(htmlStr);
 });
@@ -39,6 +39,7 @@ app.get("/search", (req, res) => {
 //   res.send("you contacted help path");
 // });
 
+// This is called wildcard route i.e. if a get request comes on any path which is not definer above then this path will catch it and will send the response given below.
 // app.get("*", (req, res) => {
 //   res.send("This path does not exist.");
 // })
@@ -55,8 +56,8 @@ app.get("/search", (req, res) => {
 //               <html>
 //               <body>
 
-//               <h1>My First Heading</h1>
-//               <p>My first paragraph.</p>
+//               <h1>Error - 404</h1>
+//               <p>Page not found.</p>
 
 //               </body>
 //               </html>`;

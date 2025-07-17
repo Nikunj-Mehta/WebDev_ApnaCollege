@@ -1,10 +1,10 @@
-// let n = 5;
+let n = 5;
 
-// for(let i = 0; i < n; i++) {
-//   console.log("Hello, ", i);
-// }
+for(let i = 0; i < n; i++) {
+  console.log("Hello, ", i);
+}
 
-// console.log("bye!");
+console.log("bye!");
 
 console.log(process.argv);
 console.log(process.argv.length);
