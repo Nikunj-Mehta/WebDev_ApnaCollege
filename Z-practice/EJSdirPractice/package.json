@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "ejsdirpractice",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -11,6 +11,6 @@
   "description": "",
   "dependencies": {
     "ejs": "^3.1.10",
-    "express": "^4.21.2"
+    "express": "^5.1.0"
   }
 }

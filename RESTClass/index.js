@@ -30,7 +30,7 @@ let posts = [
     username: "anurag",
     content: "I got selected for my 1st internship!!!"
   },
-]; 
+];
 
 app.listen(port, () => {
   console.log(`Listening to port...${port}`);
@@ -49,8 +49,8 @@ app.get("/posts/new", (req, res) => {
 app.post("/posts", (req,res) => {
   let { username, content } = req.body;
   let id = uuidv4();
-  posts.push({ id, username, content });
-//res.render("index.ejs"); This will give us error, to avoid this express has a very nice functionality
+  posts.push({ id, username, content }); // create an object of given content and push that object in posts array.
+  //res.render("index.ejs"); This will give us error, to avoid this express has a very nice functionality
   res.redirect("/posts");
 });
 
@@ -79,6 +79,6 @@ app.patch("/posts/:id", (req, res) => {
 
 app.delete("/posts/:id", (req, res) => {
   let { id } = req.params;
-  posts = posts.filter((p) => id !== p.id); // .filter() Removes elements that fail the condition.
-  res.redirect("/posts");
+  posts = posts.filter((p) => id !== p.id); // .filter() Creates a new array and add only those elements for which the callback is true. If id not= p.id it is true so those posts will be added,
+  res.redirect("/posts");                  // If id == p.id then condition is false so that post will be filtered or will not be added. 
 });

@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const path = require("path");
+const path = require("path"); // Always use this when working with EJS or templating because it helps server in finding path of views folder where our ejs templates resides.
 
 const port = 8080;
 
@@ -8,11 +8,15 @@ app.listen(port, () => {
   console.log(`Listening on port ${port}`)
 });
 
-app.use(express.static(path.join(__dirname, "public/js")));
-app.use(express.static(path.join(__dirname, "public/css")));
+app.use(express.static(path.join(__dirname, "public/js"))); // Serve static JS files from public/js   .By default express takes the static files from public folder only.
+app.use(express.static(path.join(__dirname, "public/css"))); // Serve static CSS files from public/css
 
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "/views")); 
+app.set("view engine", "ejs"); // Set EJS as the templating engine
+
+// Tell Express to always look for .ejs files in the "views" folder,
+// regardless of where the server is started from
+app.set("views", path.join(__dirname, "/views")); // we want to say the folder named views will not be found from where the server is running, but it will be found using path.join
+// The path.join joins the path __dirname give the current working directory of index.js(backend/EJSdir) and in it we are joining this views path. We get constant path
 /* If we start our server from anywhere then it will always search for "views" folder only in EJSdir folder.
  If we do not write this line then it will search the "views" folder in the directory we started the server.
 __dirname consists the path of index.js ie backend/EJSdir aur iske aage we are joining views
@@ -46,3 +50,9 @@ app.get("/ig/:username", (req, res) => {
     res.render("error.ejs");
   }
 });
+
+/*  
+EJS is a templating engine, not just a style.
+Express uses EJS to render dynamic content as HTML.
+Express handles the logic, EJS handles the display.
+*/

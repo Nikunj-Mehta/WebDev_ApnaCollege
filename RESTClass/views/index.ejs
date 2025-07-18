@@ -9,7 +9,7 @@
   <body>
     <h1>Quora Posts</h1>
     <% for(post of posts) { %>
-      <div class="post">
+      <div class="post" style="padding-left: 15px; padding-bottom: 4px;">
         <h3 class="user">@<%= post.username %></h3>
         <h4 class="content"><%= post.content %></h4>
         <a href="http://localhost:8080/posts/<%=post.id%>">See In Detail</a> &nbsp;&nbsp;
