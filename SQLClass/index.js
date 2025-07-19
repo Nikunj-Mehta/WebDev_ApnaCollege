@@ -12,7 +12,6 @@ app.use(express.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
 
-
 // For creating connection between database and node.js
 const connection = mysql.createConnection({
   host: "localhost",
@@ -21,7 +20,7 @@ const connection = mysql.createConnection({
   password: "SQL@15112004"
 });
 
-// Used to generate random objects to add values in database.
+// Used to generate random objects to add values in database. we have looped and addes 100 values already usign for loop. we have used it once so it is no use to use if we are not calling it.
 let getRandomUser = () => {
   return [
     faker.string.uuid(),
@@ -30,6 +29,22 @@ let getRandomUser = () => {
     faker.internet.password()
   ];
 };
+
+// An example to check if the function getRandom User, the below code generates 10 users using faker and adds then in bulk by replacing ? with values and adds them in db delta_app with table name given in q ie user.
+// let q = "INSERT INTO user (id, username, email, password) VALUES ?";
+// let data = [];
+// for(let i = 0; i < 10; i++) {
+//   data.push(getRandomUser()); // to get 10 fake users
+// };
+
+// try {
+//   connection.query(q, [data], (err, result) => {
+//   if(err) throw err;
+//   console.log(result);
+// });
+// } catch (err) {
+//   console.log(err);
+// }
 
 // Home route
 app.get("/", (req, res) => {
@@ -82,7 +97,7 @@ app.get("/user/:id/edit", (req, res) => {
 // Update Route
 app.patch("/user/:id", (req, res) => {
   let { id } = req.params; // Now first we need to find the user having this id.
-  let { password: formPass, username: newUsername } = req.body;
+  let { password: formPass, username: newUsername } = req.body; // Extracts the password field and stores it in a new variable called formPass. Extracts the username field and stores it in a new variable called newUsername.
   let q = `SELECT * FROM user WHERE id = '${id}'`; // Search user info in db
   
   try {

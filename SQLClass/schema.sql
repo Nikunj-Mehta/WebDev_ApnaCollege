@@ -4,3 +4,5 @@ CREATE TABLE user (
   email VARCHAR(50) UNIQUE NOT NULL,
   password VARCHAR(50) NOT NULL
 );
+
+-- This is a practice file showcasing we can use a file to run sql commands not used in any project.
