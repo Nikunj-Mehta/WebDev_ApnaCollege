@@ -10,6 +10,10 @@ async function main() {
   await mongoose.connect('mongodb://127.0.0.1:27017/amazon');
 }
 
+// MongoDB does not enforce a rigid schema like SQL databases.
+// This means you can insert documents with different fields into the same collection.
+// Then why do we sometimes define a schema?
+// For consistency in applications.
 const bookSchema = new mongoose.Schema({
   title: {
     type: String, // this way we write when there are many constraints to apply. This is original way to write.
@@ -37,12 +41,12 @@ const bookSchema = new mongoose.Schema({
 const Book = mongoose.model("Book", bookSchema);
 
 // Update
-Book.findByIdAndUpdate("67ee458cb923b605310bdd3e", {price: -500}, {runValidators: true}) // These constraints does not work with updation, These constraints works only while inserting.
-.then((res) => {
-  console.log(res);
-}).catch((err) => {
-  console.log(err.errors.price.properties.message); // to get the user defined error if constraints fails (custom error).
-});
+// Book.findByIdAndUpdate("68b01d44bfb111da3159cc8d", {price: -500}, {runValidators: true}) // These constraints does not work with updation, These constraints works only while inserting. So to make them work we have used {runValidators: true} this.
+// .then((res) => {
+//   console.log(res);
+// }).catch((err) => {
+//   console.log(err.errors.price.properties.message); // to get the user defined error if constraints fails (custom error).
+// });
 
 // Create
 // const book1 = new Book({

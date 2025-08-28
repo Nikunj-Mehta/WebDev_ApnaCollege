@@ -24,9 +24,9 @@ const User = mongoose.model("User", userSchema); // Creating an actual collectio
 //   console.log(res);
 // }).catch((err) => {
 //   console.log(err);
-// })
+// });
 
-// User.deleteMany({name: "Adam"})
+// User.deleteMany({name: "Shawn"})
 // .then((res) => {
 //   console.log(res);
 // }).catch((err) => {
@@ -34,7 +34,7 @@ const User = mongoose.model("User", userSchema); // Creating an actual collectio
 // });
 
 // If we want to delete and get what is deleted
-// User.findByIdAndDelete("67ee29d406fc2bc8329a4f81")
+// User.findByIdAndDelete("68b0157174f779ce563f2e16")
 // .then((res) => {
 //   console.log(res);
 // })
@@ -59,7 +59,7 @@ const User = mongoose.model("User", userSchema); // Creating an actual collectio
 //   console.log(err);
 // })
 
-// User.updateMany({age: 55}, {age: 29})
+// User.updateMany({age: 48}, {age: 29})
 // .then((res) => {
 //   console.log(res);
 // }).catch((err) => {
@@ -75,8 +75,16 @@ const User = mongoose.model("User", userSchema); // Creating an actual collectio
 //   console.log(err);
 // });
 
-// User.findByIdAndUpdate("67ee2b30d0a97bde8e34283c", {name: "Batman"}, {new: true}) // this will print the previous value before updation. To avoid that we use new key: value pair, to get the updated value.
+// User.findByIdAndUpdate("68b0157174f779ce563f2e17", {name: "Batman"}, {new: true}) // this will print the previous value before updation. To avoid that we use new key: value pair, to get the updated value.
 // .then((res) => {
+//   console.log(res);
+// })
+// .catch((err) => {
+//   console.log(err);
+// });
+
+// User.findByIdAndUpdate("68b0157174f779ce563f2e17", {name: "Batman", age: 46}, {new: true}) // this will print the previous value before updation. To avoid that we use new key: value pair, to get the updated value.
+// .then((res) => {                                 // To update multiple fields.
 //   console.log(res);
 // })
 // .catch((err) => {
@@ -106,7 +114,7 @@ const User = mongoose.model("User", userSchema); // Creating an actual collectio
 //   console.log(err)
 // });
 
-// User.findById("67ee2b30d0a97bde8e34283c")
+// User.findById("67ee2b30d0a97bde8e34283b")
 // .then((res) => {
 //   console.log(res);
 // }).catch(err => {

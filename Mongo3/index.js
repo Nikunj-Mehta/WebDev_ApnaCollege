@@ -88,9 +88,8 @@ app.get("/chats/:id/edit", asyncWrap(async (req, res) => {
 
 // Update route
 app.put("/chats/:id", asyncWrap(async (req, res) => {
-
   let { id } = req.params;
-  let { msg: newMsg } = req.body;
+  let { msg: newMsg } = req.body; // take the new message from req.body.msg and store it in newMsg. then creates an object with key: msg and value that is new value stored in "newMsg".
   let updatedChat = await Chat.findByIdAndUpdate(id, {msg: newMsg }, {runValidators: true, new: true});
   console.log(updatedChat);
   res.redirect("/chats");
@@ -110,6 +109,8 @@ const handelValidationError = (err) => {
   return err;
 }
 
+// Validation Error: If you try to violate the Mongoose schema, Mongoose automatically throws a ValidationError. 
+// For example, when creating a new chat document that does not match the schema definition.
 app.use((err, req, res, next) => {
   console.log(err.name); // To get the name of the error.
   if(err.name === "ValidationError") { // if we want to handel specific error differently.
@@ -118,7 +119,11 @@ app.use((err, req, res, next) => {
   next(err);
 });
 
-// Error handling middleware
+// Global Error Handling Middleware: 
+// This middleware catches any error passed down the chain using `next(err)`.
+// It checks if the error object contains a custom `status` and `message`. 
+// If not provided, it defaults to status = 500 and message = "Some Error Occured". 
+// Finally, it sends the error response back to the client with the appropriate HTTP status and message.
 app.use((err, req, res, next) => {
   let { status=500, message="Some Error Occured" } = err;
   res.status(status).send(message);
