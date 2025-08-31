@@ -4,7 +4,7 @@ import Ticket from "./Ticket.jsx";
 import Button from "./Button.jsx"
 
 export default function Lottery({ n = 3, winCondition }) {
-  let [ticket, setTicket] = useState(generateTicket(n));
+  let [ticket, setTicket] = useState(generateTicket(n)); // Ticket is an array of size n or by default 3.
   let isWinning = winCondition(ticket);
 
   let buyTicket = () => {

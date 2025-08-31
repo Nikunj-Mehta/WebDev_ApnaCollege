@@ -40,8 +40,8 @@ export default function SearchBox({ updateInfo }) {
     try {
       event.preventDefault();
       console.log(city);
-      setCity("");
-      let newInfo = await getWeatherInfo();
+      setCity(""); // This will be done after the function is over so the city var still exists untill the line below is executed
+      let newInfo = await getWeatherInfo(); // This is why the city var still has the value when used in this function above.
       updateInfo(newInfo);
     } catch (err) {
       setError(true);

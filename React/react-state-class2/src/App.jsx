@@ -7,13 +7,13 @@ import { sum } from "./helper.js";
 function App() {
 
   let winCondition = (ticket) => {
-    return ticket.every((num) => num === ticket[0]);
+    return ticket.every((num) => num === ticket[0]); // Returns true if every number in ticket array is same.(Eg: 333)
   }
 
   return (
     <>
-      {/* <LudoBoard />       */}
-      {/* <TodoList /> */}
+      <LudoBoard /> 
+      <TodoList />
       <Lottery n={3} winCondition={winCondition} />
     </>
   )

@@ -1,7 +1,7 @@
 import "./Product.css";
 import Price from "./Price";"./Price.jsx"
 
-function Product({title, idx}) { //  we can destructure the fields as we know props come as object. We can pass default values to props as well
+function Product({title, idx}) { // we can destructure the fields as we know props come as object. We can pass default values to props as well
   let oldPrice = ["12,495", "11,900", "1,599", "599"];
   let newPrice = ["8,999", "9,199", "899", "278"];
   let description = [

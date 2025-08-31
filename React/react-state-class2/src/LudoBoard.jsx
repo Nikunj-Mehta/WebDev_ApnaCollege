@@ -10,7 +10,7 @@ export default function LudoBoard() {
     });
 
     setArr((prevArr) => {
-      return [...prevArr, "blue moves"];
+      return [...prevArr, " blue moves"];
     });
     console.log(arr);
   };
@@ -19,18 +19,33 @@ export default function LudoBoard() {
     setMoves((prevMoves) => {
       return {...prevMoves, yellow: prevMoves.yellow + 1};
     });
+
+    setArr((prevArr) => {
+      return [...prevArr, " yellow moves"];
+    });
+    console.log(arr);
   };
 
   let updateGreen = () => {
     setMoves((prevMoves) => {
       return {...prevMoves, green: prevMoves.green + 1};
     });
+
+    setArr((prevArr) => {
+      return [...prevArr, " green moves"];
+    });
+    console.log(arr);
   };
 
   let updateRed = () => {
     setMoves((prevMoves) => {
       return {...prevMoves, red: prevMoves.red + 1};
     });
+
+    setArr((prevArr) => {
+      return [...prevArr, " red moves"];
+    });
+    console.log(arr);
   };
   
   return (

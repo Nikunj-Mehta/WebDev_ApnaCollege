@@ -14,7 +14,7 @@ export default function Counter () {
 
   useEffect(function printSomething() {
     console.log("print something");
-  }, []); // passed dependencie as an array ie when this effect function should run when countx state variable changes.
+  }, [countx]); // passed dependencie as an array ie when this effect function should run when countx state variable changes. If countx changes it will execute of if we wirte [county] then it will exe whenever there is change in county.
   // if passed an empty array then it will execute only once and then even if state var value changes the fn will not execute.
   return (
     <div>

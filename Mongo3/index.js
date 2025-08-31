@@ -63,7 +63,7 @@ function asyncWrap(fn) {
   return function(req, res, next) {
     fn(req, res, next).catch((err) => next(err));
   };
-}
+};
 
 // NEW - Show Route
 app.get("/chats/:id", 

@@ -8,7 +8,6 @@ function App() {
   return (
     <>
       {/* <Form /> */}
-      {/* <CommentForm /> */}
       {/* <Comment /> */}
       {/* <Counter /> */}
       <Joker />

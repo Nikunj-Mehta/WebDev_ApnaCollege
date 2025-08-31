@@ -2,18 +2,22 @@ import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 export default function TodoList() {
-  let [tasks, setTasks] = useState([{ todo: "sample-task", id: uuidv4(), isDone: false }]);
+  let [tasks, setTasks] = useState([{ todo: "sample-task", id: uuidv4(), isDone: false }]); // state Variable tasks is an array of objects.
   let [newTask, setNewTask] = useState("");
 
   let addNewTask = () => {
     setTasks((prevTodos) => {
+      // console.log(newTask); // Here the new task value is exactly what is in input box. This is printed twice because react is in strict mode.
       return [...prevTodos, { todo: newTask, id: uuidv4(), isDone: false }]; // as it is copy of prev array with the new object added so there is change in state variable(as array) and hence re-rendering occurs.
     });
     setNewTask("");
+    console.log(newTask); // Since input box is emptyed so it will print nothing. But we know react will make it empty only after the function ends so we will see the same value here too.
   }
 
   let updateTaskValue = (event) => {
     setNewTask(event.target.value); // newTask value will keep on changing on what you type
+    // console.log(newTask); // This will show one character value less than the value in input box.
+    // console.log(event.target.value) // But since we want all the values so we use this to get exactly what is typed in input box.
   };
 
   let deleteTodo = (id) => {

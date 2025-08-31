@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 export default function Form() {
-   // For every new ele we associate a new state variable.Instead of creating sep state variable for each input create one object as state for all.
+   // For every new ele we associate a new state variable. Instead of creating sep state variable for each input create one object as state for all.
   let [formData, setFormData] = useState({
     fullName: "",
     username: "",
@@ -20,7 +20,7 @@ export default function Form() {
 
   let handleInputChange = (event) =>{
     setFormData( (currData) => {
-      return {...currData, [event.target.name]: event.target.value};
+      return {...currData, [event.target.name]: event.target.value}; // This event.target is whenever we type someting then it captures which block to target like if i change formdata.fullname then it will update that similarly for all different fields we used only one function.
     });
   };
 

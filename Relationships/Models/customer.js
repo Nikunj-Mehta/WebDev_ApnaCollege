@@ -11,16 +11,16 @@ async function main() {
 }
 
 // One to many method 2 (Store a ref of child doc inside parent doc)
-const orderSchema = new Schema({
+const orderSchema = new Schema({ // Child
   item: String,
   price: Number,
 });
 
-const customerSchema = new Schema({
+const customerSchema = new Schema({ // Parent
   name: String,
   orders: [ // mongodb k andr sirf object ki id hai jo actual db k andr jati hai.
     {
-       type: Schema.Types.ObjectId, // customer schema has order as ref id for type of  id we need to write this.
+       type: Schema.Types.ObjectId, // customer schema has order as ref id for type of id we need to write this.
        ref: "Order", // Where to take reference from which model?
     }
   ]
@@ -31,7 +31,7 @@ const customerSchema = new Schema({
 // });
 
 customerSchema.post("findOneAndDelete", async (customer) => {
-  console.log(customer); // form this deleted data we will find all the orders related to that deleted customer and then we will delete it.
+  console.log(customer); // from this deleted data we will find all the orders related to that deleted customer and then we will delete it.
   if(customer.orders.length) {
     let res = await Order.deleteMany({ _id: { $in: customer.orders } }); // will delete all the orders with id present in customer.orders
     console.log(res);
@@ -98,7 +98,7 @@ const addCust = async () => {
 // Delete the customer and the order correspondind it.
 
 const delCust = async () => {
-  let data = await Customer.findByIdAndDelete("67fa0b01571c89df44cb7c06"); // customer named karan arjun is deleted but it's corresponding order is not deleted. But we want to delete it's corresponding middleware for it we will use mongoose middlewares.
+  let data = await Customer.findByIdAndDelete("67fa0b01571c89df44cb7c06"); // customer named karan arjun is deleted but it's corresponding order is not deleted. But we want to delete it's corresponding orders, we will use middleware for it we will use mongoose middlewares.
   console.log(data); // Ye jo deleted data hai uski poori access hoti hai humere post middleware k pass.
 };
 
