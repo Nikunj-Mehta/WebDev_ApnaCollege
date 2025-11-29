@@ -7,7 +7,7 @@ const { v4: uuidv4 } = require("uuid"); // To create random new id s.
 const methodOverride = require("method-override");
 
 app.use(express.urlencoded({extended: true}));
-app.use(methodOverride("_method"));
+app.use(methodOverride("_method")); // It is used to allow our form to parse(Understand) PATCH, PUT, DELETE requests. As (form)it only understands GET and POST req by defaule
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));

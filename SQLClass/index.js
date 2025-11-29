@@ -53,6 +53,8 @@ app.get("/", (req, res) => {
     // It is used to run any query on database. q is the query and data is the values to be added in db.
     connection.query(q, (err, result) => {
       if(err) throw err;
+      console.log(result);
+      console.log(result[0]);
       let count = result[0]["count(*)"]; // result comes in array of objects, 0th element of array and object whose key is count.
       res.render("home.ejs", { count });
     });

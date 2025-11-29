@@ -6,4 +6,4 @@ CREATE TABLE user (
 );
 
 -- This is a practice file showcasing we can use a file to run sql commands not used in any project.
--- To run this open mysql -u root -p in terminal then source schema.sql before that USE DB_name:
+-- To run this open mysql -u root -p in terminal then, USE statersql;  then source schema.sql;
